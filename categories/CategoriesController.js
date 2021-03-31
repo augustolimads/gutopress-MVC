@@ -32,8 +32,6 @@ router.get("/admin/categories", (req, res) => {
 router.post("/categories/delete", (req, res) => {
   const { id } = req.body;
 
-  console.log(id)
-
   if (!id || isNaN(id)) {
     res.redirect("/admin/categories");
   } 
