@@ -1,5 +1,5 @@
 <%- include('../../partials/head.ejs') %>
-    <%- include('../../partials/topbar.ejs') %>
+    <%- include('../../partials/adminTopbar.ejs') %>
         <h2 class="mt-4">Artigos</h2>
         <br>
         <div class="d-flex justify-content-end">
@@ -12,21 +12,45 @@
                     <th>Id</th>
                     <th>Título</th>
                     <th>Slug</th>
+                    <th>Categoria</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                
+                <% articles.forEach(article => { %>
+                    <tr>
+                        <th>
+                            <%= article.id %>
+                        </th>
+                        <th>
+                            <%= article.title %>
+                        </th>
+                        <th>
+                            <%= article.slug %>
+                        </th>
+                        <th>
+                            <%= article.category.title %>
+                        </th>
+                        <th class="d-flex">
+                            <a href="/admin/articles/<%= article.id %>" class="btn btn-warning">Editar</a>
+
+                            <form method="POST" action="/articles/delete" onsubmit="handleDelete(event, this)">
+                                <input type="hidden" name="id" value="<%= article.id %>">
+                                <button class="btn btn-danger ms-2" type="submit">Deletar</button>
+                            </form>
+                        </th>
+                    </tr>
+                    <% }) %>
             </tbody>
         </table>
-<%- include('../../partials/footer.ejs') %>
+        <%- include('../../partials/footer.ejs') %>
 
-<script>
-    function handleDelete(event, form) {
-        event.preventDefault()
-        const decision = confirm('Você quer deletar este artigo?')
-        if (decision) {
-            form.submit();
-        }
-    }
-</script>
+            <script>
+                function handleDelete(event, form) {
+                    event.preventDefault()
+                    const decision = confirm('Você quer deletar este artigo?')
+                    if (decision) {
+                        form.submit();
+                    }
+                }
+            </script>
