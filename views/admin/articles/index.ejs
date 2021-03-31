@@ -1,0 +1,32 @@
+<%- include('../../partials/head.ejs') %>
+    <%- include('../../partials/topbar.ejs') %>
+        <h2 class="mt-4">Artigos</h2>
+        <br>
+        <div class="d-flex justify-content-end">
+            <a href="/admin/articles/new" class="btn btn-primary">Criar novo Artigo</a>
+        </div>
+        <br>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Título</th>
+                    <th>Slug</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+<%- include('../../partials/footer.ejs') %>
+
+<script>
+    function handleDelete(event, form) {
+        event.preventDefault()
+        const decision = confirm('Você quer deletar este artigo?')
+        if (decision) {
+            form.submit();
+        }
+    }
+</script>

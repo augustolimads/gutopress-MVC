@@ -8,6 +8,7 @@ const connection = new Sequelize(
   {
     host: process.env.MYSQL_HOST,
     dialect: "mysql",
+    timezone: "-03:00"
   }
 );
 
