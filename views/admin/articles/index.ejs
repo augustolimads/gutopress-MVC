@@ -19,26 +19,26 @@
             <tbody>
                 <% articles.forEach(article => { %>
                     <tr>
-                        <th>
+                        <td>
                             <%= article.id %>
-                        </th>
-                        <th>
+                        </td>
+                        <td>
                             <%= article.title %>
-                        </th>
-                        <th>
+                        </td>
+                        <td>
                             <%= article.slug %>
-                        </th>
-                        <th>
+                        </td>
+                        <td>
                             <%= article.category.title %>
-                        </th>
-                        <th class="d-flex">
+                        </td>
+                        <td class="d-flex">
                             <a href="/admin/articles/<%= article.id %>" class="btn btn-warning">Editar</a>
 
                             <form method="POST" action="/articles/delete" onsubmit="handleDelete(event, this)">
                                 <input type="hidden" name="id" value="<%= article.id %>">
                                 <button class="btn btn-danger ms-2" type="submit">Deletar</button>
                             </form>
-                        </th>
+                        </td>
                     </tr>
                     <% }) %>
             </tbody>
