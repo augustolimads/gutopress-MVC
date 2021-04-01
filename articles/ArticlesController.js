@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require("../categories/Category");
 const Article = require("./Article");
 const slugify = require("slugify");
+const {pagination, handleNext} = require('../utils/pagination')
 
 router.get("/admin/articles", (req, res) => {
   Article.findAll({
@@ -123,12 +124,11 @@ router.post("/articles/update", (req, res) => {
 
 router.get("/articles/page/:num", (req, res) => {
   const { num } = req.params;
-  let limit = 5;
-  let offset = (isNaN(num) || num <= 1) ? 0 : (parseInt(num) -1) * limit;
+  const {limit, offset} = pagination(4, num)
   
   Article.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
     .then((articles) => {
-      let next = (offset + limit >= articles.count) ? false : true
+      const next = handleNext(offset, limit, articles.count)
 
       res.json({next, articles});
     })
