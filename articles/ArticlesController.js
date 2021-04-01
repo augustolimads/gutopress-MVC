@@ -123,12 +123,12 @@ router.post("/articles/update", (req, res) => {
 
 router.get("/articles/page/:num", (req, res) => {
   const { num } = req.params;
-  let offset = isNaN(num) ? 0 : parseInt(num) - 1;
-  let limit = 2;
+  let limit = 5;
+  let offset = (isNaN(num) || num <= 1) ? 0 : (parseInt(num) -1) * limit;
   
   Article.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
     .then((articles) => {
-      let next = (page + limit >= articles.count) ? false : true
+      let next = (offset + limit >= articles.count) ? false : true
 
       res.json({next, articles});
     })
