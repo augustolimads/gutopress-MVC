@@ -1,0 +1,9 @@
+<%- include('./partials/head.ejs') %>
+<%- include('./partials/topbar.ejs') %>
+    <div class="card my-3 p-4">
+        <h2><%= article.title %></h2>
+        <article>
+            <%- article.body %>
+        </article>
+    </div>
+<%- include('./partials/footer.ejs') %>

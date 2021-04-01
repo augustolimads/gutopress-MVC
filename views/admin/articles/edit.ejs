@@ -23,10 +23,8 @@
                 id="article" 
                 class="form-control" 
                 type="text" 
-                name="body" 
-                value="<%= article.body %>"
-            ></textarea>
-            <p value="<%= article.body %>"></p>
+                name="body"
+            ><%- article.body %></textarea>
             <br>
             <label for="category">Escolha uma categoria:</label>
             <select name="category" id="category" class="form-control" value="<%= article.category.id %>">
@@ -35,7 +33,7 @@
                 <% }) %>
             </select>
             <br>
-            <button class="btn btn-primary">Cadastrar</button>
+            <button class="btn btn-primary">Atualizar</button>
         </form>
     </div>
 </div>

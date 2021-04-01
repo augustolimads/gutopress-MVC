@@ -88,7 +88,7 @@ router.get("/admin/articles/:id", (req, res) => {
   })
 })
 
-router.post("/article/update", (req, res) => {
+router.post("/articles/update", (req, res) => {
   const { title, body, category, id } = req.body;
 
   if (title && body && category) {

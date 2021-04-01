@@ -1,4 +1,22 @@
 <%- include('./partials/head.ejs') %>
 <%- include('./partials/topbar.ejs') %>
-    blog
+    <div class="mt-3 bg-primary py-4 px-3 rounded text-white">
+        <h1 class="display-4">GUTOPRESS</h1>
+        <p class="lead">Blog para praticar NodeJS.</p>
+        <hr class="my-4">
+        <p>Projeto do curso formação NodeJS.</p>
+        
+    </div>
+    <% articles.forEach(article => { %>
+        <br>
+        <div class="card">
+            <div class="card-header d-flex align-items-center">
+                <h4><%= article.title %></h4>                
+            </div>
+            <div class="card-body">
+                <a href="/<%= article.slug %>" class="btn btn-primary">Ler artigo</a>
+            </div>
+        </div>
+        <br>
+    <% }) %>
 <%- include('./partials/footer.ejs') %>
