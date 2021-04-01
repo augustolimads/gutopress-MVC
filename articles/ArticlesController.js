@@ -6,15 +6,14 @@ const slugify = require("slugify");
 
 router.get("/admin/articles", (req, res) => {
   Article.findAll({
-    include: [{model: Category}],
+    include: [{ model: Category }],
     order: [
       ["id", "DESC"], //ou ASC
       ["createdAt", "DESC"],
     ],
-  }).then(articles => {
-
-    res.render("admin/articles/index", {articles});
-  })
+  }).then((articles) => {
+    res.render("admin/articles/index", { articles });
+  });
 });
 
 router.get("/admin/articles/new", (req, res) => {
@@ -32,13 +31,18 @@ router.post("/articles/save", (req, res) => {
   const { title, body, category } = req.body;
 
   if (title && body && category) {
-    Article.create({ title, body, categoryId: category, slug: slugify(title, { lower: true }) })
+    Article.create({
+      title,
+      body,
+      categoryId: category,
+      slug: slugify(title, { lower: true }),
+    })
       .then(() => {
         res.redirect("/admin/articles");
       })
       .catch((err) => {
         res.redirect("/admin/articles/new");
-        console.log(err)
+        console.log(err);
       });
   } else {
     res.redirect("/admin/articles/new");
@@ -46,25 +50,24 @@ router.post("/articles/save", (req, res) => {
 });
 
 router.post("/articles/delete", (req, res) => {
-  const {id} = req.body
+  const { id } = req.body;
 
-  if(!id || isNaN(id)){
-    res.redirect("/admin/categories")
+  if (!id || isNaN(id)) {
+    res.redirect("/admin/categories");
   }
-  
-  Article.destroy({where: {id},})
-  .then(() => {
-    res.redirect("/admin/articles")
-  })
-  .catch(err => {
-    res.redirect("/admin/articles")
-  })
 
-})
+  Article.destroy({ where: { id } })
+    .then(() => {
+      res.redirect("/admin/articles");
+    })
+    .catch((err) => {
+      res.redirect("/admin/articles");
+    });
+});
 
 router.get("/admin/articles/:id", (req, res) => {
   const id = Number(req.params.id);
-  let categoriesList = []
+  let categoriesList = [];
 
   Category.findAll({
     order: [
@@ -72,39 +75,66 @@ router.get("/admin/articles/:id", (req, res) => {
       ["createdAt", "DESC"],
     ],
   }).then((categories) => {
-    categoriesList = categories
+    categoriesList = categories;
   });
 
-  Article.findByPk(id, {include: [{model: Category}]}) //include: [{model: Category}],
-  .then(article => {
-    if(!article || isNaN(id)) {
+  Article.findByPk(id, { include: [{ model: Category }] }) //include: [{model: Category}],
+    .then((article) => {
+      if (!article || isNaN(id)) {
+        res.redirect("/admin/articles");
+      } else {
+        res.render("admin/articles/edit", {
+          article,
+          categories: categoriesList,
+        });
+      }
+    })
+    .catch((err) => {
       res.redirect("/admin/articles");
-    } else {
-      res.render("admin/articles/edit", {article, categories: categoriesList})
-    }
-  })
-  .catch(err => {
-    res.redirect("/admin/articles")
-  })
-})
+    });
+});
 
 router.post("/articles/update", (req, res) => {
   const { title, body, category, id } = req.body;
 
   if (title && body && category) {
-    Article.update({ title, body, categoryId: category, slug: slugify(title, { lower: true }) }, {
-      where:{id}
-    })
+    Article.update(
+      {
+        title,
+        body,
+        categoryId: category,
+        slug: slugify(title, { lower: true }),
+      },
+      {
+        where: { id },
+      }
+    )
       .then(() => {
         res.redirect("/admin/articles");
       })
       .catch((err) => {
         res.redirect("/admin/articles/edit");
-        console.log(err)
+        console.log(err);
       });
   } else {
     res.redirect("/admin/articles/edit");
-  } 
-})
+  }
+});
+
+router.get("/articles/page/:num", (req, res) => {
+  const { num } = req.params;
+  let offset = isNaN(num) ? 0 : parseInt(num) - 1;
+  let limit = 2;
+  
+  Article.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
+    .then((articles) => {
+      let next = (page + limit >= articles.count) ? false : true
+
+      res.json({next, articles});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
 module.exports = router;

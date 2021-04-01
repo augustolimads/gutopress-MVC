@@ -70,4 +70,20 @@ router.post("/categories/update", (req, res) => {
     })
 })
 
+router.get("/categories/page/:num", (req, res) => {
+  const { num } = req.params;
+  let offset = isNaN(num) ? 0 : parseInt(num) - 1;
+  let limit = 2;
+
+  Category.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
+    .then((categories) => {
+      let next = (page + limit >= categories.count) ? false : true
+     
+      res.json({next, categories});
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;
