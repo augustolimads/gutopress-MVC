@@ -129,7 +129,7 @@ router.get("/articles/page/:num", (req, res) => {
   Article.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
     .then((articles) => {
       const next = handleNext(offset, limit, articles.count)
-
+     
       res.json({next, articles});
     })
     .catch((err) => {

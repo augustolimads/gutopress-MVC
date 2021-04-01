@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require("./Category");
 
 const slugify = require("slugify");
+const { pagination, handleNext } = require("../utils/pagination");
 
 router.get("/admin/categories/new", (req, res) => {
   res.render("admin/categories/new");
@@ -76,7 +77,7 @@ router.get("/categories/page/:num", (req, res) => {
 
   Category.findAndCountAll({ limit, offset, order: [["id", "DESC"]]})
     .then((categories) => {
-      const next = handleNext(offset, limit, articles.count)
+      const next = handleNext(offset, limit, categories.count)
      
       res.json({next, categories});
     })
