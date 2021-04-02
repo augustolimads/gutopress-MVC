@@ -7,24 +7,34 @@
         <p>Projeto do curso formação NodeJS.</p>
         
     </div>
-    <% articles.forEach(article => { %>
+    <% articles.rows.forEach(article => { %>
         <br>
         <div class="card">
             <div class="card-header d-flex align-items-center">
                 <h4><%= article.title %></h4>                
             </div>
             <div class="card-body">
-                <a href="/<%= article.slug %>" class="btn btn-primary">Ler artigo</a>
+                <a href="/article/<%= article.slug %>" class="btn btn-primary">Ler artigo</a>
             </div>
         </div>
         <br>
     <% }) %>
     <div class="d-flex justify-content-between">
-        <% if (articles.next) { %>
-            <a class="me-auto" href="#"> <% '<<< ' %>Back </a>
+        <!-- <a class="fs-3" href="#">Next &rarrb;</a> -->
+        <% if (back >= 1) { %>
+            <a class="fs-3 me-auto" href="/<%= back %>"> &larrb; Back </a>
         <% } %>
-        <% if (articles.next) { %>
-            <a class="me-auto" href="#">Next >>></a>
+
+        <% if (next) { %>
+            <a class="fs-3 ms-auto" href="/<%= next %>">Next &rarrb;</a>
         <% } %>
+            
     </div>
+    <hr>
+    <p>next:<%= next %></p>
+    <p>back:<%= back %></p>
+    <p>offset:<%= offset %></p>
+    <p>limit:<%= limit %></p>
+    <p>num:<%= num %></p>
+    <br>
 <%- include('./partials/footer.ejs') %>

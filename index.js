@@ -7,7 +7,7 @@ const ArticlesController = require("./articles/ArticlesController");
 
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
-const { pagination, handleNext } = require("./utils/pagination");
+const { pagination, handleBackNext } = require("./utils/pagination");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -27,56 +27,36 @@ app.use("/", CategoriesController);
 app.use("/", ArticlesController);
 
 app.get("/", (req, res) => {
-  res.redirect("/")
+  res.redirect("/1")
 })
 
-// app.get("/:num", (req, res) => {
-//   const { num } = req.params;
-//   const {limit, offset} = pagination(2, num)
+app.get("/:num", (req, res) => {
+  const { num } = req.params;
+  const {limit, offset} = pagination(2, num)
+
   
-//   //Category list for navbar
-//   let categoryList = [];
-//   Category.findAll({ order: [["title", "ASC"]] }).then((categories) => {
-//     categoryList = categories;
-//   });
-
-//   //home list - all articles
-//   Article.findAndCountAll({
-//     limit, 
-//     offset,
-//     include: [{ model: Category }],
-//     order: [
-//       ["id", "DESC"], //ou ASC
-//       ["createdAt", "DESC"],
-//     ],
-//   }).then((articles) => {
-//     const next = handleNext(offset, limit, articles.count)
-
-//     res.render("index", { next, articles, categories: categoryList });
-//   });
-// });
-
-app.get("/", (req, res) => {
-  let categoryList = [];
-
   //Category list for navbar
+  let categoryList = [];
   Category.findAll({ order: [["title", "ASC"]] }).then((categories) => {
     categoryList = categories;
   });
 
   //home list - all articles
-  Article.findAll({
+  Article.findAndCountAll({
+    limit, 
+    offset,
     include: [{ model: Category }],
     order: [
       ["id", "DESC"], //ou ASC
       ["createdAt", "DESC"],
     ],
   }).then((articles) => {
-    res.render("index", { articles, categories: categoryList });
+    const {back, next} = handleBackNext(offset, limit, articles.count, num)
+
+    res.render("index", { next, back, offset, limit, num, articles, categories: categoryList });
   });
 });
 
-//Category
 app.get("/category/:slug", (req, res) => {
   const { slug } = req.params;
 
@@ -99,8 +79,7 @@ app.get("/category/:slug", (req, res) => {
     });
 });
 
-// Article
-app.get("/:slug", (req, res) => {
+app.get("/article/:slug", (req, res) => {
   const { slug } = req.params;
 
   let categoryList = [];
