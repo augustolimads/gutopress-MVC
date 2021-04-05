@@ -193,7 +193,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/:num", (req, res) => {
+router.get("/page/:num", (req, res) => {
   const { num } = req.params;
   const { limit, offset } = pagination(2, num);
 

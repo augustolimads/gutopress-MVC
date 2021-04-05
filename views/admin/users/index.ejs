@@ -1,0 +1,48 @@
+<%- include('../../partials/head.ejs') %>
+<%- include('../../partials/adminTopbar.ejs') %>
+    <h2 class="mt-4">Usuários</h2>
+    <br>
+    <div class="d-flex justify-content-end">
+        <a href="/admin/users/new" class="btn btn-primary">Criar novo Usuário</a>
+    </div>
+    <br>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user=> { %>
+                <tr>
+                    <td>
+                        <%= user.id %>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>                    
+                    <td class="d-flex">
+                        <a href="/admin/users/<%= user.id %>" class="btn btn-warning">Editar</a>
+
+                        <form method="POST" action="/users/delete" onsubmit="handleDelete(event, this)">
+                            <input type="hidden" name="id" value="<%= user.id %>">
+                            <button class="btn btn-danger ms-2" type="submit">Deletar</button>
+                        </form>
+                    </td>
+                </tr>
+                <% }) %>
+
+        </tbody>
+    </table>
+<script>
+function handleDelete(event, form) {
+    event.preventDefault()
+    const decision = confirm('Você quer deletar este usuário?')
+    if (decision) {
+        form.submit();
+    }
+}
+</script>
+<%- include('../../partials/footer.ejs') %>

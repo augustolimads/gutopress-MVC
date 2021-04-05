@@ -136,34 +136,6 @@ router.get("/category/:slug/:num", (req, res) => {
     console.log(err)
   })
 
-  
-
-
-  // Category.findOne(
-  //   { where: { slug },
-  //     include: [{model: Article}]
-  // },
-  //   )
-  //   .then((category) => {
-  //     if (category) {
-
-  //       Category.findAndCountAll({limit, offset, order: [["id", "DESC"]]})
-  //       .then(categories => {
-  //         const {back, next} = handleBackNext(offset, limit, category.articles.length, num)
-
-  //         res.json({next, back, articles: category.articles, categories: categories.rows });
-  //         res.render("index", {next, back, offset, limit, num, articles: category.articles, categories: categoryList });
-  //       })
-  //       .catch(err => console.log(err))
-
-  //     } else {
-  //       res.redirect("/");
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     res.redirect("/");
-  //   });
-
 });
 
 module.exports = router;
