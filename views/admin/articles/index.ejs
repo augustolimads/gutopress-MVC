@@ -6,43 +6,45 @@
             <a href="/admin/articles/new" class="btn btn-primary">Criar novo Artigo</a>
         </div>
         <br>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Título</th>
-                    <th>Slug</th>
-                    <th>Categoria</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% articles.forEach(article => { %>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            <%= article.id %>
-                        </td>
-                        <td>
-                            <%= article.title %>
-                        </td>
-                        <td>
-                            <%= article.slug %>
-                        </td>
-                        <td>
-                            <%= article.category.title %>
-                        </td>
-                        <td class="d-flex">
-                            <a href="/admin/articles/<%= article.id %>" class="btn btn-warning">Editar</a>
-
-                            <form method="POST" action="/articles/delete" onsubmit="handleDelete(event, this)">
-                                <input type="hidden" name="id" value="<%= article.id %>">
-                                <button class="btn btn-danger ms-2" type="submit">Deletar</button>
-                            </form>
-                        </td>
+                        <th scope="col">Id</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Ações</th>
                     </tr>
-                    <% }) %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% articles.forEach(article => { %>
+                        <tr>
+                            <th scope="row">
+                                <%= article.id %>
+                            </th>
+                            <td>
+                                <%= article.title %>
+                            </td>
+                            <td>
+                                <%= article.slug %>
+                            </td>
+                            <td>
+                                <%= article.category.title %>
+                            </td>
+                            <td class="d-flex">
+                                <a href="/admin/articles/<%= article.id %>" class="btn btn-warning">Editar</a>
+
+                                <form method="POST" action="/articles/delete" onsubmit="handleDelete(event, this)">
+                                    <input type="hidden" name="id" value="<%= article.id %>">
+                                    <button class="btn btn-danger ms-2" type="submit">Deletar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
         <%- include('../../partials/footer.ejs') %>
 
             <script>

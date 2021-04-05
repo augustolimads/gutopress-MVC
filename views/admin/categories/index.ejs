@@ -6,40 +6,42 @@
             <a href="/admin/categories/new" class="btn btn-primary">Criar nova Categoria</a>
         </div>
         <br>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Título</th>
-                    <th>Slug</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% categories.forEach(category=> { %>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
                     <tr>
-                        <td>
-                            <%= category.id %>
-                        </td>
-                        <td>
-                            <%= category.title %>
-                        </td>
-                        <td>
-                            <%= category.slug %>
-                        </td>
-                        <td class="d-flex">
-                            <a href="/admin/categories/<%= category.id %>" class="btn btn-warning">Editar</a>
-
-                            <form method="POST" action="/categories/delete" onsubmit="handleDelete(event, this)">
-                                <input type="hidden" name="id" value="<%= category.id %>">
-                                <button class="btn btn-danger ms-2" type="submit">Deletar</button>
-                            </form>
-                        </td>
+                        <th scope="col">Id</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Ações</th>
                     </tr>
-                    <% }) %>
+                </thead>
+                <tbody>
+                    <% categories.forEach(category=> { %>
+                        <tr>
+                            <th scope="row">
+                                <%= category.id %>
+                            </th>
+                            <td>
+                                <%= category.title %>
+                            </td>
+                            <td>
+                                <%= category.slug %>
+                            </td>
+                            <td class="d-flex">
+                                <a href="/admin/categories/<%= category.id %>" class="btn btn-warning">Editar</a>
 
-            </tbody>
-        </table>
+                                <form method="POST" action="/categories/delete" onsubmit="handleDelete(event, this)">
+                                    <input type="hidden" name="id" value="<%= category.id %>">
+                                    <button class="btn btn-danger ms-2" type="submit">Deletar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+
 <%- include('../../partials/footer.ejs') %>
 
 <script>
