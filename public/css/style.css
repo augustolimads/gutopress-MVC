@@ -1,3 +1,27 @@
 .logo {
     height: 40px;
 }
+
+.bg-degrade-animation {
+    background: linear-gradient(-55deg, #0d6efd,#6610f2);
+    background-size: 400% 400%;
+    -webkit-animation: bg-degrade 7s ease-out infinite;
+    -moz-animation: bg-degrade 7s ease-out infinite;
+    animation: bg-degrade 7s ease-out infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes bg-degrade {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% { background-position: 0% 50%;}
+}
