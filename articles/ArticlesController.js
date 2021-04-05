@@ -4,8 +4,9 @@ const Category = require("../categories/Category");
 const Article = require("./Article");
 const slugify = require("slugify");
 const { pagination, handleBackNext } = require("../utils/pagination");
+const adminAuth = require("../middlewares/adminAuth")
 
-router.get("/admin/articles", (req, res) => {
+router.get("/admin/articles", adminAuth, (req, res) => {
   Article.findAll({
     include: [{ model: Category }],
     order: [
@@ -17,7 +18,7 @@ router.get("/admin/articles", (req, res) => {
   });
 });
 
-router.get("/admin/articles/new", (req, res) => {
+router.get("/admin/articles/new", adminAuth, (req, res) => {
   Category.findAll({
     order: [
       ["title", "ASC"], //ou ASC
@@ -28,7 +29,7 @@ router.get("/admin/articles/new", (req, res) => {
   });
 });
 
-router.post("/articles/save", (req, res) => {
+router.post("/articles/save", adminAuth, (req, res) => {
   const { title, body, category } = req.body;
 
   if (title && body && category) {
@@ -50,7 +51,7 @@ router.post("/articles/save", (req, res) => {
   }
 });
 
-router.get("/admin/articles/:id", (req, res) => {
+router.get("/admin/articles/:id", adminAuth, (req, res) => {
   const id = Number(req.params.id);
   let categoriesList = [];
 
@@ -79,7 +80,7 @@ router.get("/admin/articles/:id", (req, res) => {
     });
 });
 
-router.post("/articles/delete", (req, res) => {
+router.post("/articles/delete", adminAuth, (req, res) => {
   const { id } = req.body;
 
   if (!id || isNaN(id)) {
@@ -95,7 +96,7 @@ router.post("/articles/delete", (req, res) => {
     });
 });
 
-router.post("/articles/update", (req, res) => {
+router.post("/articles/update", adminAuth, (req, res) => {
   const { title, body, category, id } = req.body;
 
   if (title && body && category) {
@@ -122,7 +123,7 @@ router.post("/articles/update", (req, res) => {
   }
 });
 
-router.get("/articles/page/:num", (req, res) => {
+router.get("/articles/page/:num", adminAuth, (req, res) => {
   const { num } = req.params;
   const { limit, offset } = pagination(4, num);
 
