@@ -17,9 +17,12 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
+//1s > 1min > 1h > 1 day > 3 days
+const time = 1000 * 60 * 60 * 24 * 3
 app.use(session({
   secret: process.env.SECRET,
-  cookie: { maxAge: 30000 },
+  cookie: { maxAge: time },
   resave: true,
   saveUninitialized: false
 }))
